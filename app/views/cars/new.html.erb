@@ -1,2 +1,22 @@
-<h1>Cars#new</h1>
-<p>Find me in app/views/cars/new.html.erb</p>
+<h1>List Your Car for Rent</h1>
+
+<%= simple_form_for(@car) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :brand %>
+    <%= f.input :model %>
+    <%= f.input :year %>
+    <%= f.input :seats %>
+    <%= f.input :price_per_day %>
+    <%= f.input :address %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+
+<%= link_to "Back to home", root_path %>

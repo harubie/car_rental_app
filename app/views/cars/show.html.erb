@@ -1,2 +1,18 @@
-<h1>Cars#show</h1>
-<p>Find me in app/views/cars/show.html.erb</p>
+<h1><%= @car.title %></h1>
+<h2><%= @car.year %> <%= @car.brand %> <%= @car.model %></h2>
+
+<div>
+  <p><strong>Seats:</strong> <%= @car.seats %></p>
+  <p><strong>Price per day:</strong> <%= @car.price_per_day %></p>
+  <p><strong>Address:</strong> <%= @car.address %></p>
+</div>
+
+<div>
+  <p>photo here?</p>
+</div>
+
+<div>
+  <p>form for calendar to make bookings here</p>
+</div>
+
+<%= link_to "Back to home", root_path %>
