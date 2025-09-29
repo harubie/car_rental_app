@@ -16,9 +16,9 @@ owner  = User.create!(email: "owner@car.com",  password: "123456", name: "Owner"
 renter = User.create!(email: "renter@car.com", password: "123456", name: "Renter")
 
 cars = [
-  { title: "Toyota Corolla",  brand: "Toyota",  model: "Corolla", year: 2019, seats: 5, price_per_day: 60, address: "1 Market St, Sydney NSW" },
-  { title: "Mazda 3",         brand: "Mazda",   model: "3",       year: 2020, seats: 5,  price_per_day: 70, address: "200 George St, Sydney NSW" },
-  { title: "Hyundai i30",     brand: "Hyundai", model: "i30",     year: 2018, seats: 5,    price_per_day: 50, address: "Collins St, Melbourne VIC" }
+  { title: "Spotless Corolla - Your Perfect City Companion!",  brand: "Toyota",  model: "Corolla", year: 2019, seats: 5, price_per_day: 60, address: "1 Market St, Sydney NSW" },
+  { title: "Sleek Mazda 3 - Drive in Style & Comfort!",         brand: "Mazda",   model: "3",       year: 2020, seats: 5,  price_per_day: 70, address: "200 George St, Sydney NSW" },
+  { title: "Great Value Hyundai i30 - Melbourne Explorer Special!",     brand: "Hyundai", model: "i30",     year: 2018, seats: 5,    price_per_day: 50, address: "Collins St, Melbourne VIC" }
 ]
 
 cars.each do |attrs|
