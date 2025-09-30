@@ -3,7 +3,8 @@ class BookingsController < ApplicationController
   before_action :set_car,     only: %i[new create]
   before_action :set_booking, only: %i[update]
   def index
-    @bookings = current_user.bookings.includes(:car).order(created_at: :desc)
+    @my_bookings = current_user.bookings.includes(:car)  # as a renter
+    @incoming_bookings = Booking.joins(:car).where(cars: { user_id: current_user.id }).includes(:user, :car)  # as a car owner
   end
 
   def new
