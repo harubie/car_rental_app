@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   root to: "cars#index"
 
   # Cars routes
-  resources :cars, only: [:index, :show, :new, :create] do
+  resources :cars, only: [:index, :show, :new, :create, :destroy] do
     # Nested booking routes - for booking a specific car
     resources :bookings, only: [:new, :create]
   end
