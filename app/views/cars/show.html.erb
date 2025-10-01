@@ -1,68 +1,41 @@
-<div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-  <!-- Car Header -->
-  <div class="bg-gray-50 p-6 border-b">
-    <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= @car.title %></h1>
-    <h2 class="text-xl text-gray-600"><%= @car.year %> <%= @car.brand %> <%= @car.model %></h2>
-  </div>
+<h1><%= @car.title %></h1>
+<h2><%= @car.year %> <%= @car.brand %> <%= @car.model %></h2>
 
-  <!-- Car Details & Photo Section -->
-  <div class="grid md:grid-cols-2 gap-6 p-6">
-    <!-- Left: Car Details -->
-    <div class="space-y-4">
-      <div class="bg-gray-50 p-4 rounded-lg">
-        <h3 class="text-lg font-semibold text-gray-900 mb-3">Car Details</h3>
-        <div class="space-y-2">
-          <div class="flex justify-between">
-            <span class="text-gray-600">Seats:</span>
-            <span class="font-medium"><%= @car.seats %> people</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-600">Price per day:</span>
-            <span class="font-medium text-green-600">$<%= @car.price_per_day %></span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-600">Location:</span>
-            <span class="font-medium"><%= @car.address %></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Owner Actions -->
-      <% if current_user == @car.user %>
-        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-          <h4 class="text-sm font-medium text-red-800 mb-2">Owner Actions</h4>
-          <%= link_to "Delete Car",
-              car_path(@car),
-              data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this car?" },
-              class: "inline-flex items-center px-3 py-2 border border-red-300 rounded-md text-sm font-medium text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500" %>
-        </div>
-      <% end %>
-    </div>
-
-    <!-- Right: Photo Placeholder -->
-    <div class="bg-gray-100 rounded-lg flex items-center justify-center h-64">
-      <div class="text-center">
-        <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-        </svg>
-        <p class="text-gray-500 text-sm mt-2">Car photo coming soon</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Booking Section -->
-  <div class="bg-blue-50 border-t p-6">
-    <h3 class="text-lg font-semibold text-gray-900 mb-4">Book This Car</h3>
-    <div class="bg-white p-4 rounded-lg border border-blue-200">
-      <p class="text-gray-600 text-center">Booking calendar and form coming soon!</p>
-      <!-- Your booking form will go here -->
-    </div>
-  </div>
-
-  <!-- Navigation -->
-  <div class="bg-gray-50 px-6 py-4 border-t">
-    <%= link_to "← Back to Cars",
-        root_path,
-        class: "inline-flex items-center text-indigo-600 hover:text-indigo-800 font-medium" %>
-  </div>
+<div>
+  <p><strong>Seats:</strong> <%= @car.seats %></p>
+  <p><strong>Price per day:</strong> <%= @car.price_per_day %></p>
+  <p><strong>Address:</strong> <%= @car.address %></p>
 </div>
+
+<div>
+  <p>photo here?</p>
+</div>
+
+<% if current_user == @car.user %>
+    <div class="car-owner-actions">
+      <%= link_to "Delete Car",
+          car_path(@car),
+          data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this car?" },
+          class: "btn btn-danger" %>
+    </div>
+  <% else %>
+      <%= form_with model: [@car, @booking], local: true do |f| %>
+        <div class="mb-4">
+          <%= f.label :start_date, "Start Date:" %>
+          <%= f.date_field :start_date %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :end_date, "End Date:" %>
+          <%= f.date_field :end_date %>
+        </div>
+
+        <%= f.submit "Book Now" %>
+      <% end %>
+<% end %>
+
+<div>
+  <p>form for calendar to make bookings here</p>
+</div>
+
+<%= link_to "Back to home", root_path %>

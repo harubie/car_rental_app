@@ -18,5 +18,5 @@ Rails.application.routes.draw do
   end
 
   # Independent booking routes - for managing user's bookings
-  resources :bookings, only: [:index, :update]
+  resources :bookings, only: [:index, :update, :destroy]
 end

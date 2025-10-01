@@ -11,6 +11,7 @@ class BookingsController < ApplicationController
   end
 
   def create
+    @car = Car.find(params[:car_id])
     @booking = @car.bookings.new(booking_params)
     @booking.user   = current_user
     @booking.status = "pending"
@@ -36,6 +37,12 @@ class BookingsController < ApplicationController
     else
       redirect_to bookings_path, alert: @booking.errors.full_messages.to_sentence
     end
+  end
+
+  def destroy
+    @booking = current_user.bookings.find(params[:id])
+    @booking.destroy
+    redirect_to bookings_path, notice: "Booking deleted successfully!"
   end
 
   private

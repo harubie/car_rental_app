@@ -9,6 +9,7 @@ class CarsController < ApplicationController
     # this would show detail of a car
     @car = Car.find(params[:id])
     @cars = @car.bookings
+    @booking = Booking.new
   end
 
   def new
