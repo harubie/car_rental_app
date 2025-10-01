@@ -28,6 +28,10 @@
         <p class="text-gray-700">Start: <%= booking.start_date %></p>
         <p class="text-gray-700">End: <%= booking.end_date %></p>
         <p class="text-gray-700">Status: <%= booking.status %></p>
+        <%= form_with model: booking, url: booking_path(booking), method: :patch, class: "mt-2 inline-block" do |f| %>
+          <%= f.select :status, ['pending', 'accepted', 'declined', 'cancelled'], selected: booking.status, class: "border rounded p-1" %>
+          <%= f.submit "Update", class: "bg-green-500 text-white px-2 py-1 rounded" %>
+        <% end %>
       </div>
     <% end %>
   <% else %>

@@ -33,7 +33,7 @@ class BookingsController < ApplicationController
     unless @booking.car.user == current_user
       redirect_to bookings_path, alert: "Not authorized." and return
     end
-    if @booking.update(status_params)
+    if @booking.update(booking_params)
       redirect_to bookings_path, notice: "Booking updated."
     else
       redirect_to bookings_path, alert: @booking.errors.full_messages.to_sentence
@@ -57,10 +57,6 @@ class BookingsController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(:start_date, :end_date)
-  end
-
-  def status_params
-    params.require(:booking).permit(:status)
+    params.require(:booking).permit(:start_date, :end_date, :status)
   end
 end
