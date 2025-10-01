@@ -69,4 +69,3 @@ end
 gem 'simple_form'
 gem 'devise'
 gem 'faker'
-gem 'flatpickr'
