@@ -28,8 +28,12 @@ class CarsController < ApplicationController
 
   def destroy
     @car = Car.find(params[:id])
-    @car.destroy
-    redirect_to cars_path, notice: "Car removed successfully!"
+    if @car.user == current_user
+      @car.destroy
+      redirect_to cars_path, notice: "Car deleted."
+    else
+      redirect_to cars_path, alert: "Not authorized."
+    end
   end
 
   private
