@@ -3,6 +3,7 @@ class Car < ApplicationRecord
   has_many :bookings, dependent: :destroy
   geocoded_by :address
   after_validation :geocode
+  has_one_attached :photo
 
   validates :title, :brand, :model, :year, :seats, :price_per_day, :address, presence: true
 end
