@@ -36,6 +36,24 @@ class CarsController < ApplicationController
     end
   end
 
+  def search
+    @cars = Car.all
+
+    if params[:location].present?
+    @cars = @cars.near(params[:location], 20)
+    end
+
+    if params[:start_date].present? && params[:end_date].present?
+      unavailable_car_ids = Booking.where(
+        "start_date <= ? AND end_date >= ?",
+        params[:end_date], params[:start_date]
+      ).pluck(:car_id)
+      @cars = @cars.where.not(id: unavailable_car_ids)
+    end
+
+    render :index
+  end
+
   private
 
   def car_params
