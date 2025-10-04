@@ -13,6 +13,9 @@ Rails.application.routes.draw do
 
   # Cars routes
   resources :cars do
+    collection do
+      get 'search'
+    end
     # Nested booking routes - for booking a specific car
     resources :bookings, only: [:new, :create]
   end

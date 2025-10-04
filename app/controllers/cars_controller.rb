@@ -36,6 +36,16 @@ class CarsController < ApplicationController
     end
   end
 
+  def search
+    @cars = Car.all
+
+    if params[:location].present?
+    @cars = @cars.where("LOWER(address) LIKE LOWER(?)", "%#{params[:location]}%")
+    end
+
+    render :index
+  end
+
   private
 
   def car_params
