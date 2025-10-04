@@ -40,7 +40,7 @@ class CarsController < ApplicationController
     @cars = Car.all
 
     if params[:location].present?
-    @cars = @cars.where("LOWER(address) LIKE LOWER(?)", "%#{params[:location]}%")
+    @cars = @cars.near(params[:location], 20)
     end
 
     if params[:start_date].present? && params[:end_date].present?
