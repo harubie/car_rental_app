@@ -1,39 +1,41 @@
-<h1><%= @car.title %></h1>
-<h2><%= @car.year %> <%= @car.brand %> <%= @car.model %></h2>
+<h1 class="text-3xl font-bold mb-2"><%= @car.title %></h1>
+<h2 class="text-xl text-gray-600 mb-6"><%= @car.year %> <%= @car.brand %> <%= @car.model %></h2>
 
-<div>
+<div class="border border-gray-300 rounded p-4 mb-4">
   <p><strong>Seats:</strong> <%= @car.seats %></p>
   <p><strong>Price per day:</strong> <%= @car.price_per_day %></p>
   <p><strong>Address:</strong> <%= @car.address %></p>
 </div>
 
-<div>
+<div class="border border-gray-300 rounded p-4 mb-4">
   <p>photo here?</p>
 </div>
 
 <% if current_user == @car.user %>
-    <div class="car-owner-actions">
-      <%= button_to "Delete Car",
-          car_path(@car),
-          method: :delete,
-          data: { turbo: false },
-          onclick: "return confirm('Are you sure you want to delete this car?')",
-          class: "btn btn-danger" %>
-    </div>
-  <% else %>
-      <%= form_with model: [@car, @booking], local: true do |f| %>
-        <div class="mb-4">
-          <%= f.label :start_date, "Start Date:" %>
-          <%= f.date_field :start_date %>
-        </div>
+  <div class="car-owner-actions">
+    <%= button_to "Delete Car",
+        car_path(@car),
+        method: :delete,
+        data: { turbo: false },
+        onclick: "return confirm('Are you sure you want to delete this car?')",
+        class: "text-red-500 border border-red-500 px-4 py-2 rounded hover:bg-red-50" %>
+  </div>
+<% else %>
+  <div class="border border-gray-300 rounded p-4 mb-4">
+    <%= form_with model: [@car, @booking], local: true do |f| %>
+      <div class="mb-4">
+        <%= f.label :start_date, "Start Date:" %>
+        <%= f.date_field :start_date %>
+      </div>
 
-        <div class="mb-4">
-          <%= f.label :end_date, "End Date:" %>
-          <%= f.date_field :end_date %>
-        </div>
+      <div class="mb-4">
+        <%= f.label :end_date, "End Date:" %>
+        <%= f.date_field :end_date %>
+      </div>
 
-        <%= f.submit "Book Now" %>
-      <% end %>
+      <%= f.submit "Book Now" %>
+    <% end %>
+  </div>
 <% end %>
 
 <%= link_to "Back to home", root_path %>
