@@ -12,14 +12,19 @@
 <% else %>
   <ul>
     <% @cars.each do |car| %>
-    <li class="border border-gray-300 rounded p-4 mb-4">
-      <p><%= car.title %></p>
-      <p><%= car.brand %></p>
-      <p><%= car.year %></p>
-      <p>placeholder car photo</p>
-      <%= link_to  "View details to see availability", car_path(car),
-      class: "inline-block text-blue-500 border border-blue-500 px-3 py-1 rounded hover:bg-blue-50 mt-2 text-sm" %>
-    </li>
+      <li class="border border-gray-300 rounded p-4 mb-4">
+        <p><%= car.title %></p>
+        <p><%= car.brand %></p>
+        <p><%= car.year %></p>
+        <% if car.photo.attached? %>
+          <%# <img src="" alt=""> %>
+          <%= cl_image_tag car.photo.key, height: 100, width: 150, class: "h-10 w-16 obect-cover rounded-md" %>
+        <% else %>
+          <div class="h-10 w-16 rounded-md bg-gray-200"></div>
+        <% end %>
+        <%= link_to  "View details to see availability", car_path(car),
+        class: "inline-block text-blue-500 border border-blue-500 px-3 py-1 rounded hover:bg-blue-50 mt-2 text-sm" %>
+      </li>
     <% end %>
   </ul>
 <% end %>
