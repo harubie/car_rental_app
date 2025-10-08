@@ -3,6 +3,14 @@ class CarsController < ApplicationController
 
   def index
     @cars = Car.all
+
+    @markers = @cars.geocoded.map do |car|
+      {
+        lat: car.latitude,
+        lng: car.longitude,
+        id: car.id
+      }
+    end
   end
 
   def show
@@ -50,6 +58,14 @@ class CarsController < ApplicationController
       ).pluck(:car_id)
       @cars = @cars.where.not(id: unavailable_car_ids)
     end
+
+      @markers = @cars.geocoded.map do |car|
+    {
+      lat: car.latitude,
+      lng: car.longitude,
+      id: car.id
+    }
+  end
 
     render :index
   end

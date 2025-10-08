@@ -1,30 +1,42 @@
 <h1 class="text-3xl font-bold mb-2 text-center">Welcome to Car Rentals! Your one stop shop to renting cars!</h1>
+
 <div class="m-6 p-4 border border-gray-300 rounded text-center">
   <form action="<%= search_cars_path %>" method="get">
-  <input type="text" name="location" placeholder="Location" class="border border-gray-300 rounded p-2 mr-2">
-  <input type="date" name="start_date" >
-  <input type="date" name="end_date" >
-  <button type="submit" >Search</button>
+    <input type="text" name="location" placeholder="Location" class="border border-gray-300 rounded p-2 mr-2">
+    <input type="date" name="start_date" class="border border-gray-300 rounded p-2 mr-2">
+    <input type="date" name="end_date" class="border border-gray-300 rounded p-2 mr-2">
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Search</button>
   </form>
 </div>
-<% if @cars.empty? %>
-  <p class="text-center text-gray-600 text-xl p-8">No cars available for your search. Try different dates or location.</p>
-<% else %>
-  <ul>
-    <% @cars.each do |car| %>
+
+<div class="mx-6 mb-20">
+  <div data-controller="map"
+        data-map-api-key-value="<%= ENV["MAPBOX_API_KEY"] %>"
+        data-map-markers-value="<%= @markers.to_json %>"
+        class="h-64 w-full bg-gray-100 rounded border border-gray-300 overflow-hidden">
+  </div>
+</div>
+
+<div class="mx-6 mt-8">
+  <% if @cars.empty? %>
+    <p class="text-center text-gray-600 text-xl p-8">No cars available for your search. Try different dates or location.</p>
+  <% else %>
+    <ul>
+      <% @cars.each do |car| %>
       <li class="border border-gray-300 rounded p-4 mb-4">
-        <p><%= car.title %></p>
-        <p><%= car.brand %></p>
-        <p><%= car.year %></p>
+        <p class="font-bold text-lg"><%= car.title %></p>
+        <p class="text-gray-600"><%= car.brand %> - <%= car.year %></p>
+
         <% if car.photo.attached? %>
-          <%# <img src="" alt=""> %>
-          <%= cl_image_tag car.photo.key, height: 100, width: 150, class: "h-10 w-16 obect-cover rounded-md" %>
+          <%= cl_image_tag car.photo.key, height: 100, width: 150, class: "h-10 w-16 object-cover rounded-md" %>
         <% else %>
           <div class="h-10 w-16 rounded-md bg-gray-200"></div>
         <% end %>
-        <%= link_to  "View details to see availability", car_path(car),
+
+        <%= link_to "View details to see availability", car_path(car),
         class: "inline-block text-blue-500 border border-blue-500 px-3 py-1 rounded hover:bg-blue-50 mt-2 text-sm" %>
       </li>
-    <% end %>
-  </ul>
-<% end %>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
