@@ -26,7 +26,13 @@
       <li class="border border-gray-300 rounded p-4 mb-4">
         <p class="font-bold text-lg"><%= car.title %></p>
         <p class="text-gray-600"><%= car.brand %> - <%= car.year %></p>
-        <p class="text-sm text-gray-500 mb-2">placeholder car photo</p>
+
+        <% if car.photo.attached? %>
+          <%= cl_image_tag car.photo.key, height: 100, width: 150, class: "h-10 w-16 object-cover rounded-md" %>
+        <% else %>
+          <div class="h-10 w-16 rounded-md bg-gray-200"></div>
+        <% end %>
+
         <%= link_to "View details to see availability", car_path(car),
         class: "inline-block text-blue-500 border border-blue-500 px-3 py-1 rounded hover:bg-blue-50 mt-2 text-sm" %>
       </li>
