@@ -24,19 +24,22 @@
           <%= link_to "Home",
               root_path,
               class: "inline-flex items-center gap-x-1.5 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500" %>
-        </div>
 
-        <!-- Right section -->
-        <div class="flex items-center gap-4">
           <% if user_signed_in? %>
             <%= link_to "List Your Car",
                 new_car_path,
                 class: "inline-flex items-center gap-x-1.5 rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-400 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500" %>
 
             <%= link_to "My Bookings", bookings_path, class: "inline-flex items-center gap-x-1.5 rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-400 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500" %>
+          <% end %>
+        </div>
 
-            <span class="text-gray-300 text-sm">Welcome, <%= current_user.name %>!</span>
-
+        <!-- Right section -->
+        <div class="flex items-center gap-4">
+          <% if user_signed_in? %>
+            <span class="inline-flex items-center gap-x-1.5 rounded-md bg-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-xs">
+              Welcome, <%= current_user.name %>!
+            </span>
             <%= button_to "Sign Out",
                 destroy_user_session_path,
                 method: :delete,
