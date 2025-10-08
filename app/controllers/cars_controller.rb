@@ -58,6 +58,13 @@ class CarsController < ApplicationController
       @cars = @cars.where.not(id: unavailable_car_ids)
     end
 
+      @markers = @cars.geocoded.map do |car|
+    {
+      lat: car.latitude,
+      lng: car.longitude
+    }
+  end
+
     render :index
   end
 
