@@ -28,9 +28,13 @@ export default class extends Controller {
   addMarkersToMap() {
     this.markersValue.forEach(markerJSON => {
       // markerJSON = { lat: 0.0, lng: 0.0 }
-      new mapboxgl.Marker()
+      const marker = new mapboxgl.Marker()
           .setLngLat([markerJSON.lng, markerJSON.lat])
           .addTo(this.map);
+
+    marker.getElement().addEventListener('click', () => {
+      Turbo.visit(`/cars/${markerJSON.id}`, { action: 'advance' });
+    });
     });
   }
 
@@ -39,4 +43,6 @@ export default class extends Controller {
     this.markersValue.forEach(marker => bounds.extend([ marker.lng, marker.lat ]))
     this.map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 0 })
   }
+
+
 }

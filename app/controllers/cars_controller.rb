@@ -8,6 +8,7 @@ class CarsController < ApplicationController
       {
         lat: car.latitude,
         lng: car.longitude,
+        id: car.id
       }
     end
   end
@@ -61,7 +62,8 @@ class CarsController < ApplicationController
       @markers = @cars.geocoded.map do |car|
     {
       lat: car.latitude,
-      lng: car.longitude
+      lng: car.longitude,
+      id: car.id
     }
   end
 
