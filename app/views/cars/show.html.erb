@@ -12,8 +12,7 @@
       <div class="overflow-hidden rounded-2xl border bg-white shadow-sm">
         <% if @car.photo.attached? %>
           <%= cl_image_tag @car.photo.key,
-                width: 1600, height: 900, crop: :fill, gravity: :auto,
-                fetch_format: :auto, quality: "auto", dpr: "auto",
+                width: 1600, height: 900, crop: :fill,
                 class: "aspect-[16/9] w-full object-cover" %>
         <% else %>
           <div class="aspect-[16/9] w-full bg-gray-100 flex items-center justify-center text-gray-400">
