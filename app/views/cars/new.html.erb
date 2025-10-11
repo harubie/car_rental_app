@@ -1,45 +1,65 @@
 <h1 class="text-2xl font-bold mb-6 text-center">List Your Car for Rent</h1>
 
-<%= form_with model: @car, local: true, html: { class: "max-w-2xl mx-auto bg-white p-8 rounded shadow" } do |f| %>
-  <div class="space-y-6">
+<%= form_with model: @car, local: true, html: { class: "max-w-3xl mx-auto bg-white p-10 rounded shadow-lg" } do |f| %>
+  <div class="space-y-8">
     <div>
-      <%= f.label :title, "Title", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.text_field :title, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      <%= f.label :title, "Title", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.text_field :title,
+          placeholder: "Write a cool title for your listing!",
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3" %>
     </div>
     <div>
-      <%= f.label :brand, "Brand", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.text_field :brand, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      <%= f.label :brand, "Brand", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.text_field :brand,
+          placeholder: "Toyota",
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3" %>
     </div>
     <div>
-      <%= f.label :model, "Model", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.text_field :model, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      <%= f.label :model, "Model", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.text_field :model,
+          placeholder: "RAV4",
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3" %>
     </div>
     <div>
-      <%= f.label :year, "Year", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.number_field :year, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      <%= f.label :year, "Year", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.number_field :year,
+          placeholder: "2022",
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3" %>
     </div>
     <div>
-      <%= f.label :seats, "Seats", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.number_field :seats, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      <%= f.label :seats, "Seats", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.number_field :seats,
+          placeholder: "5",
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3" %>
     </div>
     <div>
-      <%= f.label :price_per_day, "Price per day", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.number_field :price_per_day, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      <%= f.label :price_per_day, "Price per day", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.number_field :price_per_day,
+          placeholder: "75",
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3" %>
+      <p class="text-xs text-gray-500 mt-1">Set your daily rate in AUD</p>
     </div>
     <div>
-      <%= f.label :address, "Address", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.text_field :address, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      <%= f.label :address, "Address", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.text_field :address,
+          placeholder: "123 Smith Street, Melbourne VIC 3000",
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3" %>
+      <p class="text-xs text-gray-500 mt-1">📍 Include suburb and postcode for accurate location</p>
     </div>
     <div>
-      <%= f.label :available_from, "Available from", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.date_field :available_from, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      <%= f.label :available_from, "Available from", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.date_field :available_from,
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3" %>
+      <p class="text-xs text-gray-500 mt-1">When can renters start booking?</p>
     </div>
     <div>
-      <%= f.label :available_until, "Available until", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.date_field :available_until, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+      <%= f.label :available_until, "Available until", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.date_field :available_until,
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3" %>
+      <p class="text-xs text-gray-500 mt-1">Leave blank if available indefinitely</p>
     </div>
     <div>
-      <%= f.label :photo, "Photo", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.label :photo, "Photo", class: "block text-sm font-medium text-gray-700 mb-2" %>
       <div class="flex items-center gap-4">
         <%= f.file_field :photo, class: "block w-full text-sm text-gray-500
           file:mr-4 file:py-2 file:px-4
@@ -49,6 +69,7 @@
           hover:file:bg-indigo-100
         " %>
       </div>
+      <p class="text-xs text-gray-500 mt-1">📸 Upload a clear photo showing exterior and interior</p>
     </div>
   </div>
   <div class="mt-8 flex items-center justify-end gap-x-6">
