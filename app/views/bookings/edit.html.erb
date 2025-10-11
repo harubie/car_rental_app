@@ -1,0 +1,37 @@
+<h1 class="text-2xl font-bold mb-2 text-center">Edit Booking</h1>
+<p class="text-gray-600 text-center mb-8">Update your booking dates</p>
+
+<%= simple_form_for @booking, url: booking_path(@booking), method: :patch, html: { class: "max-w-4xl mx-auto bg-white p-10 rounded-lg shadow-lg" } do |f| %>
+
+  <% if @booking.errors.any? %>
+    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded">
+      <p class="text-red-800 font-semibold">This car is not available on those dates. Please choose different dates.</p>
+    </div>
+  <% end %>
+
+  <div class="mb-8 p-4 bg-gray-50 rounded">
+    <h2 class="font-semibold text-lg mb-1"><%= @booking.car.title %></h2>
+    <p class="text-sm text-gray-600">Status: <%= @booking.status %></p>
+  </div>
+
+  <div class="space-y-8">
+    <div>
+      <%= f.label :start_date, "Start Date", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.date_field :start_date,
+          class: "block w-full rounded-md border border-gray-300 px-4 py-3 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" %>
+      <p class="text-xs text-gray-500 mt-1">Select when you want to pick up the car</p>
+    </div>
+
+    <div>
+      <%= f.label :end_date, "End Date", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.date_field :end_date,
+          class: "block w-full rounded-md border border-gray-300 px-4 py-3 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" %>
+      <p class="text-xs text-gray-500 mt-1">Select when you'll return the car</p>
+    </div>
+  </div>
+
+  <div class="mt-8 flex items-center justify-end gap-x-6">
+    <%= link_to "Cancel", bookings_path, class: "text-sm font-semibold text-gray-600" %>
+    <%= f.submit "Update Booking", class: "rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-600" %>
+  </div>
+<% end %>
