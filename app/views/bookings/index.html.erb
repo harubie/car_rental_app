@@ -3,15 +3,22 @@
 
   <% if @my_bookings.present? %>
     <% @my_bookings.each do |booking| %>
-      <div class="bg-white p-4 rounded-lg shadow mb-4">
-        <h3 class="font-semibold mb-2"><%= booking.car.model %></h3>
-        <p class="text-gray-700">Start: <%= booking.start_date %></p>
-        <p class="text-gray-700">End: <%= booking.end_date %></p>
-        <p class="text-gray-700">Status: <%= booking.status %></p>
-        <p class="text-gray-700">Total price: <%= number_to_currency(booking.total_price) %></p>
-        <%= button_to "Delete", booking_path(booking), method: :delete,
-            class: "mt-2 bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600",
-            data: { confirm: "Are you sure you want to delete this booking?" } %>
+      <div class="bg-white p-4 rounded-lg shadow mb-4 flex items-center gap-4">
+        <% if booking.car.photo.attached? %>
+          <%= image_tag booking.car.photo, class: "h-16 w-24 object-cover rounded" %>
+        <% else %>
+          <div class="h-16 w-24 bg-gray-200 rounded flex items-center justify-center text-gray-400">No photo</div>
+        <% end %>
+        <div>
+          <h3 class="font-semibold mb-2"><%= booking.car.model %></h3>
+          <p class="text-gray-700">Start: <%= booking.start_date %></p>
+          <p class="text-gray-700">End: <%= booking.end_date %></p>
+          <p class="text-gray-700">Status: <%= booking.status %></p>
+          <p class="text-gray-700">Total price: <%= number_to_currency(booking.total_price) %></p>
+          <%= button_to "Delete", booking_path(booking), method: :delete,
+              class: "mt-2 bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600",
+              data: { confirm: "Are you sure you want to delete this booking?" } %>
+        </div>
       </div>
     <% end %>
   <% else %>
@@ -23,17 +30,24 @@
   <h2 class="text-xl font-semibold mb-4">Bookings for my cars</h2>
   <% if @incoming_bookings.present? %>
     <% @incoming_bookings.each do |booking| %>
-      <div class="bg-blue-50 p-4 rounded-lg shadow mb-4">
-        <h3 class="font-semibold mb-2"><%= booking.car.model %></h3>
-        <p class="text-gray-700">Booked by: <%= booking.user.email %></p>
-        <p class="text-gray-700">Start: <%= booking.start_date %></p>
-        <p class="text-gray-700">End: <%= booking.end_date %></p>
-        <p class="text-gray-700">Status: <%= booking.status %></p>
-        <p class="text-gray-700">Total price: <%= number_to_currency(booking.total_price) %></p>
-        <%= form_with model: booking, url: booking_path(booking), method: :patch, class: "mt-2 inline-block" do |f| %>
-          <%= f.select :status, ['pending', 'accepted', 'declined', 'cancelled'], selected: booking.status, class: "border rounded p-1" %>
-          <%= f.submit "Update", class: "bg-green-500 text-white px-2 py-1 rounded" %>
+      <div class="bg-blue-50 p-4 rounded-lg shadow mb-4 flex items-center gap-4">
+        <% if booking.car.photo.attached? %>
+          <%= image_tag booking.car.photo, class: "h-16 w-24 object-cover rounded" %>
+        <% else %>
+          <div class="h-16 w-24 bg-gray-200 rounded flex items-center justify-center text-gray-400">No photo</div>
         <% end %>
+        <div>
+          <h3 class="font-semibold mb-2"><%= booking.car.model %></h3>
+          <p class="text-gray-700">Booked by: <%= booking.user.email %></p>
+          <p class="text-gray-700">Start: <%= booking.start_date %></p>
+          <p class="text-gray-700">End: <%= booking.end_date %></p>
+          <p class="text-gray-700">Status: <%= booking.status %></p>
+          <p class="text-gray-700">Total price: <%= number_to_currency(booking.total_price) %></p>
+          <%= form_with model: booking, url: booking_path(booking), method: :patch, class: "mt-2 inline-block" do |f| %>
+            <%= f.select :status, ['pending', 'accepted', 'declined', 'cancelled'], selected: booking.status, class: "border rounded p-1" %>
+            <%= f.submit "Update", class: "bg-green-500 text-white px-2 py-1 rounded" %>
+          <% end %>
+        </div>
       </div>
     <% end %>
   <% else %>
