@@ -52,11 +52,16 @@ class CarsController < ApplicationController
     end
 
     if params[:start_date].present? && params[:end_date].present?
+      start_date = Date.parse(params[:start_date])
+      end_date = Date.parse(params[:end_date])
+
       unavailable_car_ids = Booking.where(
-        "start_date <= ? AND end_date >= ?",
-        params[:end_date], params[:start_date]
+        'start_date <= ? AND end_date >= ?',
+        end_date, start_date
       ).pluck(:car_id)
+
       @cars = @cars.where.not(id: unavailable_car_ids)
+                   .where("available_from <= ? AND available_until >= ?", start_date, end_date)
     end
 
       @markers = @cars.geocoded.map do |car|
@@ -73,7 +78,7 @@ class CarsController < ApplicationController
   private
 
   def car_params
-    params.require(:car).permit(:title, :brand, :model, :year, :seats, :price_per_day, :address, :photo)
+    params.require(:car).permit(:title, :brand, :model, :year, :seats, :price_per_day, :address, :photo, :available_from, :available_until)
   end
 
 end
