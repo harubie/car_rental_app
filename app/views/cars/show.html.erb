@@ -15,6 +15,16 @@
   <div class="h-10 w-16 rounded-md bg-gray-200"></div>
   <% end %></div>
 
+<div class="mb-6">
+  <h3 class="text-lg font-semibold mb-2">Location</h3>
+  <div data-controller="show-map"
+       data-show-map-api-key-value="<%= ENV["MAPBOX_API_KEY"] %>"
+       data-show-map-latitude-value="<%= @car.latitude %>"
+       data-show-map-longitude-value="<%= @car.longitude %>"
+       class="h-64 w-full rounded border border-gray-300 overflow-hidden">
+  </div>
+</div>
+
 <% if current_user == @car.user %>
     <div class="car-owner-actions">
       <%= link_to "Delete Car",
@@ -37,9 +47,5 @@
         <%= f.submit "Book Now" %>
       <% end %>
 <% end %>
-
-<div>
-  <p>form for calendar to make bookings here</p>
-</div>
 
 <%= link_to "Back to home", root_path %>
