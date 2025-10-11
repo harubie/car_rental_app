@@ -1,51 +1,94 @@
-<h1><%= @car.title %></h1>
-<h2><%= @car.year %> <%= @car.brand %> <%= @car.model %></h2>
+<div class="mx-auto max-w-6xl px-4 py-8">
+  <!-- Header -->
+  <header class="mb-6">
+    <h1 class="text-2xl font-semibold text-gray-900"><%= @car.title %></h1>
+    <h2 class="mt-1 text-sm text-gray-600"><%= @car.year %> <%= @car.brand %> <%= @car.model %></h2>
+  </header>
 
-<div>
-  <p><strong>Seats:</strong> <%= @car.seats %></p>
-  <p><strong>Price per day:</strong> <%= @car.price_per_day %></p>
-  <p><strong>Address:</strong> <%= @car.address %></p>
-</div>
-
-
-<% if @car.photo.attached? %>
-  <div class>
-  <%= cl_image_tag @car.photo.key, height: 300, width: 400 %>
-<% else %>
-  <div class="h-10 w-16 rounded-md bg-gray-200"></div>
-  <% end %></div>
-
-<div class="mb-6">
-  <h3 class="text-lg font-semibold mb-2">Location</h3>
-  <div data-controller="show-map"
-       data-show-map-api-key-value="<%= ENV["MAPBOX_API_KEY"] %>"
-       data-show-map-latitude-value="<%= @car.latitude %>"
-       data-show-map-longitude-value="<%= @car.longitude %>"
-       class="h-64 w-full rounded border border-gray-300 overflow-hidden">
-  </div>
-</div>
-
-<% if current_user == @car.user %>
-    <div class="car-owner-actions">
-      <%= link_to "Delete Car",
-          car_path(@car),
-          data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this car?" },
-          class: "btn btn-danger" %>
+  <!-- Main grid -->
+  <div class="grid grid-cols-1 gap-8 lg:grid-cols-5">
+    <!-- Image -->
+    <div class="lg:col-span-3">
+      <div class="overflow-hidden rounded-2xl border bg-white shadow-sm">
+        <% if @car.photo.attached? %>
+          <%= cl_image_tag @car.photo.key,
+                width: 1600, height: 900, crop: :fill, gravity: :auto,
+                fetch_format: :auto, quality: "auto", dpr: "auto",
+                class: "aspect-[16/9] w-full object-cover" %>
+        <% else %>
+          <div class="aspect-[16/9] w-full bg-gray-100 flex items-center justify-center text-gray-400">
+            No image
+          </div>
+        <% end %>
+      </div>
     </div>
-  <% else %>
-      <%= form_with model: [@car, @booking], local: true do |f| %>
-        <div class="mb-4">
-          <%= f.label :start_date, "Start Date:" %>
-          <%= f.date_field :start_date %>
-        </div>
 
-        <div class="mb-4">
-          <%= f.label :end_date, "End Date:" %>
-          <%= f.date_field :end_date %>
-        </div>
+    <!-- Facts & actions -->
+    <aside class="lg:col-span-2 space-y-6">
+      <!-- Facts card -->
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <dl class="grid grid-cols-1 gap-y-3 text-sm sm:grid-cols-2">
+          <div>
+            <dt class="text-gray-500">Seats</dt>
+            <dd class="font-medium text-gray-900"><%= @car.seats %></dd>
+          </div>
+          <div>
+            <dt class="text-gray-500">Price per day</dt>
+            <dd class="font-semibold text-gray-900">$<%= @car.price_per_day %></dd>
+          </div>
+          <div class="sm:col-span-2">
+            <dt class="text-gray-500">Address</dt>
+            <dd class="font-medium text-gray-900"><%= @car.address %></dd>
+          </div>
+        </dl>
+      </div>
 
-        <%= f.submit "Book Now" %>
+      <% if current_user == @car.user %>
+        <!-- Owner actions -->
+        <div class="flex items-center gap-2">
+          <%= link_to "Edit",
+              edit_car_path(@car),
+              class: "rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700" %>
+
+          <%= link_to "Delete Car",
+              car_path(@car),
+              data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this car?" },
+              class: "rounded-xl border border-red-300 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50" %>
+        </div>
+      <% else %>
+        <!-- Booking form -->
+        <div class="rounded-2xl border bg-white p-6 shadow-sm">
+          <%= form_with model: [@car, @booking], local: true, class: "space-y-4" do |f| %>
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div>
+                <%= f.label :start_date, "Start Date:", class: "mb-1 block text-sm text-gray-600" %>
+                <%= f.date_field :start_date, class: "w-full rounded-xl border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500" %>
+              </div>
+              <div>
+                <%= f.label :end_date, "End Date:", class: "mb-1 block text-sm text-gray-600" %>
+                <%= f.date_field :end_date, class: "w-full rounded-xl border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500" %>
+              </div>
+            </div>
+            <%= f.submit "Book Now", class: "w-full rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700" %>
+          <% end %>
+        </div>
       <% end %>
-<% end %>
 
-<%= link_to "Back to home", root_path %>
+      <%= link_to "Back to home", root_path, class: "text-sm text-gray-600 underline hover:text-gray-800" %>
+    </aside>
+  </div>
+
+  <!-- Map -->
+  <section class="mt-10">
+    <h3 class="mb-3 text-lg font-semibold text-gray-900">Location</h3>
+    <div class="overflow-hidden rounded-2xl border bg-white shadow-sm">
+      <div
+        data-controller="show-map"
+        data-show-map-api-key-value="<%= ENV["MAPBOX_API_KEY"] %>"
+        data-show-map-latitude-value="<%= @car.latitude %>"
+        data-show-map-longitude-value="<%= @car.longitude %>"
+        class="h-72 w-full">
+      </div>
+    </div>
+  </section>
+</div>

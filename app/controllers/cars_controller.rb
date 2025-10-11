@@ -1,5 +1,7 @@
 class CarsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: %i[new create edit update destroy]
+  before_action :set_car,            only: %i[show edit update destroy]
+  before_action :authorize_owner!,   only: %i[edit update destroy]
 
   def index
     @cars = Car.all
@@ -75,7 +77,31 @@ class CarsController < ApplicationController
     render :index
   end
 
+  def edit
+    # Solo renderiza el form. @car ya viene de set_car
+  end
+
+  def update
+    # 1) @car ya está seteado por set_car
+    # 2) Intentamos actualizar con los params permitidos
+    if @car.update(car_params)
+      # 3) Éxito: redirige al show con aviso
+      redirect_to @car, notice: "Car updated successfully."
+    else
+      # 4) Falla de validación: volvemos al form edit mostrando errores
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def set_car
+    @car = Car.find(params[:id])
+  end
+
+  def authorize_owner!
+    redirect_to cars_path, alert: "Not authorized." unless @car.user == current_user
+  end
 
   def car_params
     params.require(:car).permit(:title, :brand, :model, :year, :seats, :price_per_day, :address, :photo, :available_from, :available_until)
