@@ -1,7 +1,7 @@
 class BookingsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_car,     only: %i[new create]
-  before_action :set_booking, only: %i[update destroy]
+  before_action :set_booking, only: %i[edit update destroy]
   def index
     @my_bookings = current_user.bookings.includes(:car)
     @incoming_bookings = Booking.joins(:car)
@@ -35,21 +35,38 @@ class BookingsController < ApplicationController
     end
   end
 
-  def update
-    unless @booking.car.user == current_user
-      redirect_to bookings_path, alert: "Not authorized." and return
-    end
-    if @booking.update(booking_params)
+def update
+  # Owner updating status
+  if @booking.car.user == current_user
+    if @booking.update(status_params)
       if @booking.status == "cancelled"
         redirect_to bookings_path, notice: "Booking was cancelled. The renter has been notified."
-        # Optionally, send an email or notification to the renter here
       else
         redirect_to bookings_path, notice: "Booking updated."
       end
     else
       redirect_to bookings_path, alert: @booking.errors.full_messages.to_sentence
     end
+  # Renter updating dates
+  elsif @booking.user == current_user
+    # Set status back to pending
+    @booking.status = "pending"
+
+    # Recalculate total price with new dates
+    if params[:booking][:start_date].present? && params[:booking][:end_date].present?
+      days = (Date.parse(params[:booking][:end_date]) - Date.parse(params[:booking][:start_date])).to_i
+      @booking.total_price = days.positive? ? days * @booking.car.price_per_day : 0
+    end
+
+    if @booking.update(booking_params.except(:status))
+      redirect_to bookings_path, notice: "Booking updated. Waiting for owner approval."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  else
+    redirect_to bookings_path, alert: "Not authorized."
   end
+end
 
   def destroy
     @booking = Booking.find(params[:id])
@@ -58,6 +75,12 @@ class BookingsController < ApplicationController
       redirect_to bookings_path, notice: "Booking deleted."
     else
       redirect_to bookings_path, alert: "Not authorized."
+    end
+  end
+
+  def edit
+    unless @booking.user == current_user
+      redirect_to bookings_path, alert: "Not authorized." and return
     end
   end
 
